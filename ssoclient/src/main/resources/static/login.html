@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>登录</title>
+<link rel="stylesheet" href="/layui-v2.2.45/css/layui.css" media="all">
+<link rel="stylesheet" href="/style/css/login.css" media="all">
+<script type="text/javascript">
+	if (window != top) {
+		top.location.href = location.href;
+	}
+</script>
+</head>
+<body>
+	<div class="login">
+		<h1>用户登录</h1>
+		<form class="layui-form">
+			<div class="layui-form-item">
+				<input class="layui-input" name="userNo" placeholder="用户名" 
+				lay-verify="required" autocomplete="off" type="text">
+			</div>
+			<div class="layui-form-item">
+				<input class="layui-input" name="passWord" placeholder="密码" 
+				lay-verify="required" autocomplete="off" type="password">
+			</div>
+			<div class="layui-form-item form_code">
+				<input class="layui-input" style="width: 140px;" name="captcha" placeholder="验证码" 
+				lay-verify="required" autocomplete="off" type="text">
+				<div class="code">
+					<img id="captcha" src="/defaultKaptcha" onclick="refreshCode(this)" width="116" height="36">
+				</div>
+			</div>
+			<button class="layui-btn login_btn" lay-submit="" lay-filter="login">登录</button>
+		</form>
+	</div>
+	<script type="text/javascript" src="/layui-v2.2.45/layui.js"></script>
+	<script type="text/javascript" src="/js/login.js"></script>
+</body>
+</html>

@@ -7,8 +7,8 @@ spring:
     content-type: text/html; charset=utf-8
     encoding: UTF-8
 shiro:
-  loginUrl: /login
+  loginUrl: /login.html
   successUrl: /index
-  unauthorizedUrl: /unauthorizedUrl
+  unauthorizedUrl: /unauthorized
   sessionManager:
     sessionIdUrlRewritingEnabled: false

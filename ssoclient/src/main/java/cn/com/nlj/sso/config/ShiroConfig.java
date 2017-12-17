@@ -24,6 +24,14 @@ public class ShiroConfig {
 	@Bean
 	public ShiroFilterChainDefinition shiroFilterChainDefinition() {
 		DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+		//静态资源文件
+		chainDefinition.addPathDefinition("/layui-v2.2.45/**", "anon");//anon游客访问
+		chainDefinition.addPathDefinition("/style/**", "anon");
+		chainDefinition.addPathDefinition("/js/**", "anon");
+		//验证码
+		chainDefinition.addPathDefinition("/defaultKaptcha", "anon");
+		//登录请求
+		chainDefinition.addPathDefinition("/sys/login", "anon");
 		//所有访问都通过认证后才可以访问
 		chainDefinition.addPathDefinition("/**", "authc");  
 		return chainDefinition;
