@@ -18,7 +18,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import cn.com.nlj.sso.dto.UserDto;
-import cn.com.nlj.sso.service.LoginService;
 
 /***
  * 类说明：权限管理
@@ -27,16 +26,6 @@ import cn.com.nlj.sso.service.LoginService;
  */
 public class MyShiroRealm extends AuthorizingRealm {
 	
-	private LoginService loginService;
-	
-	public MyShiroRealm() {
-		super();
-	}
-	
-	public MyShiroRealm(LoginService loginService) {
-		this.loginService = loginService;
-	}
-
 	/***
 	 * 认证信息(授权)
 	 */
@@ -69,7 +58,12 @@ public class MyShiroRealm extends AuthorizingRealm {
 		String username = upToken.getUsername();
 
 		// 3. 调用数据库的方法, 从数据库中查询 username 对应的用户记录
-		UserDto userDto = loginService.queryUserInfoByUserNo(username);
+		UserDto userDto = null;
+		/*try {
+			userDto = (UserDto) remotService.getRemotService(RemotApi.LOGINSERVICE, "queryUserInfoByUserNo", "nlj");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
 		
 		// 4. 若用户不存在, 则可以抛出 UnknownAccountException 异常
 		if (userDto == null) {

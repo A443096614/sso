@@ -5,7 +5,7 @@ import cn.com.nlj.sso.dto.UserDto;
 public interface LoginService {
 
 	/***
-	 * 根据用户编号查询用户信息
+	 * 鏍规嵁鐢ㄦ埛缂栧彿鏌ヨ鐢ㄦ埛淇℃伅
 	 * @param userNo
 	 * @return
 	 */

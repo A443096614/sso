@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /***
-* ÀàËµÃ÷£º
+* ç±»è¯´æ˜ï¼š
 * @author nlj
-* 2017Äê12ÔÂ16ÈÕ ÏÂÎç10:21:15
+* 2017å¹´12æœˆ16æ—¥ ä¸‹åˆ10:21:15
 */
 public class UserDto implements Serializable{
 

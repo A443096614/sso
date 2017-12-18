@@ -14,7 +14,7 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public UserDto queryUserInfoByUserNo(String userNo) {
-		// TODO Auto-generated method stub
+		System.err.println("userNo=============>>>>");
 		return null;
 	}
 

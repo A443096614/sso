@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
 import cn.com.nlj.sso.dto.R;
+import cn.com.nlj.sso.service.RemotApi;
+import cn.com.nlj.sso.service.RemotService;
 
 /***
  * 类说明：
@@ -33,8 +35,11 @@ import cn.com.nlj.sso.dto.R;
 public class LogInController {
 
 	@Autowired
+	private RemotService remotService;
+	
+	@Autowired
 	private DefaultKaptcha defaultKaptcha;
-
+	
 	@RequestMapping("/defaultKaptcha")
 	public void defaultKaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		byte[] captchaChallengeAsJpeg = null;
@@ -66,6 +71,11 @@ public class LogInController {
 	@RequestMapping("/sys/login")
 	@ResponseBody
 	public R login(HttpServletRequest request, String userNo, String passWord, String captcha) {
+		try {
+			remotService.getRemotService(RemotApi.LOGINSERVICE, "queryUserInfoByUserNo", "nlj");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String vrifyCode = (String) request.getSession().getAttribute("vrifyCode");
 		if (!vrifyCode.equals(captcha)) {
 			return R.error("输入的验证码错误，请重新输入!");

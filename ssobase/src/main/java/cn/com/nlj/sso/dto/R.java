@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /***
-* ÀàËµÃ÷£ºÓÃÓÚÒ³Ãæ·µ»Ø
+* ç±»è¯´æ˜ï¼šç”¨äºé¡µé¢è¿”å›
 * @author nlj
-* 2017Äê12ÔÂ16ÈÕ ÏÂÎç4:43:58
+* 2017å¹´12æœˆ16æ—¥ ä¸‹åˆ4:43:58
 */
 public class R extends HashMap<String, Object>{
 
@@ -17,7 +17,7 @@ public class R extends HashMap<String, Object>{
 	
 	public R() {
 		super.put("code", RCODE.CODE_200.getCode());
-		super.put("msg", "²Ù×÷³É¹¦£¡");
+		super.put("msg", "æ“ä½œæˆåŠŸï¼");
 	}
 	
 	public static R error(RCODE code, String msg) {
@@ -28,7 +28,7 @@ public class R extends HashMap<String, Object>{
 	}
 	
 	public static R error() {
-		return error(RCODE.CODE_500, "ÏµÍ³·¢ÉúÒì³££¬ÇëÁªÏµÀ´¹ÜÀíÔ±£¡");
+		return error(RCODE.CODE_500, "ç³»ç»Ÿå‘ç”Ÿå¼‚å¸¸ï¼Œè¯·è”ç³»æ¥ç®¡ç†å‘˜ï¼");
 	}
 	
 	public static R error(String msg) {
