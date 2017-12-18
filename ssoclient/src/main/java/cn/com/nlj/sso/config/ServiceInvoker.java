@@ -21,7 +21,7 @@ public class ServiceInvoker {
 	@Value("${service.service}")
 	private String service;
 	
-	@Bean
+	@Bean("/loginService")
 	public HttpInvokerProxyFactoryBean httpInvokerProxyFactoryBean() {
 		HttpInvokerProxyFactoryBean invoker = new HttpInvokerProxyFactoryBean();
 		invoker.setServiceInterface(LoginService.class);

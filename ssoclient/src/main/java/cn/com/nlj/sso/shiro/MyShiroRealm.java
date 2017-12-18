@@ -16,7 +16,6 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import cn.com.nlj.sso.dto.UserDto;
 import cn.com.nlj.sso.service.LoginService;
@@ -27,9 +26,17 @@ import cn.com.nlj.sso.service.LoginService;
  * @author nlj 2017年12月10日 下午9:12:03
  */
 public class MyShiroRealm extends AuthorizingRealm {
-
-	@Autowired
+	
 	private LoginService loginService;
+	
+	public MyShiroRealm() {
+		super();
+	}
+	
+	public MyShiroRealm(LoginService loginService) {
+		this.loginService = loginService;
+	}
+
 	/***
 	 * 认证信息(授权)
 	 */
