@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 
-import cn.com.nlj.sso.service.RemotService;
+import cn.com.nlj.sso.service.RemoteService;
 
 @Configuration
 @PropertySource(value = "classpath:service.properties")
@@ -19,11 +19,11 @@ public class ServiceInvoker {
 	@Value("${service.service}")
 	private String service;
 	
-	@Bean(name = "remotService")
+	@Bean(name = "remoteService")
 	public HttpInvokerProxyFactoryBean httpInvokerProxyFactoryBean() {
 		HttpInvokerProxyFactoryBean invoker = new HttpInvokerProxyFactoryBean();
-		invoker.setServiceInterface(RemotService.class);
-		String serviceUrl = url + ":" + port + service + "/remotService";
+		invoker.setServiceInterface(RemoteService.class);
+		String serviceUrl = url + ":" + port + service + "/remoteService";
 		invoker.setServiceUrl(serviceUrl);
 		//invoker.setHttpInvokerRequestExecutor(commonsHttpInvokerRequestExecutor());
 		invoker.afterPropertiesSet();

@@ -28,6 +28,11 @@
 			<artifactId>ssobase</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>cn.com.nlj.sso</groupId>
+			<artifactId>ssoexception</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -80,6 +85,17 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<dependency>
+		    <groupId>net.sf.dozer</groupId>
+		    <artifactId>dozer</artifactId>
+		    <version>5.5.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>net.sf.dozer</groupId>
+		    <artifactId>dozer-spring</artifactId>
+		    <version>5.5.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -87,7 +103,6 @@
 			<plugin>  
                 <groupId>org.apache.maven.plugins</groupId>  
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
                 <configuration>
                 	<source>${java-version}</source>
                 	<target>${java-version}</target>

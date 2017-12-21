@@ -23,8 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
 import cn.com.nlj.sso.dto.R;
-import cn.com.nlj.sso.service.RemotApi;
-import cn.com.nlj.sso.service.RemotService;
+import cn.com.nlj.sso.exception.BusinessException;
 
 /***
  * 类说明：
@@ -34,9 +33,6 @@ import cn.com.nlj.sso.service.RemotService;
 @Controller
 public class LogInController {
 
-	@Autowired
-	private RemotService remotService;
-	
 	@Autowired
 	private DefaultKaptcha defaultKaptcha;
 	
@@ -71,11 +67,6 @@ public class LogInController {
 	@RequestMapping("/sys/login")
 	@ResponseBody
 	public R login(HttpServletRequest request, String userNo, String passWord, String captcha) {
-		try {
-			remotService.getRemotService(RemotApi.LOGINSERVICE, "queryUserInfoByUserNo", "nlj");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		String vrifyCode = (String) request.getSession().getAttribute("vrifyCode");
 		if (!vrifyCode.equals(captcha)) {
 			return R.error("输入的验证码错误，请重新输入!");
@@ -85,15 +76,17 @@ public class LogInController {
 		try {
 			// 执行登录.
 			subject.login(token);
+		} catch (BusinessException e) {
+			return R.error(e.getMessage());
 		// 若没有指定的账户, 则 shiro 将会抛出 UnknownAccountException 异常.
 		} catch (UnknownAccountException uae) {
-			return R.error("输入的用户名不存在，请重新输入！");
+			return R.error(uae.getMessage());
 		// 若账户存在, 但密码不匹配, 则 shiro 会抛出 IncorrectCredentialsException 异常。
 		} catch (IncorrectCredentialsException ice) {
 			return R.error("输入的密码不正确，请重新输入！");
 		// 用户被锁定的异常 LockedAccountException
 		} catch (LockedAccountException lae) {
-			return R.error("该用户已锁定，请等会再登录！");
+			return R.error(lae.getMessage());
 		// 所有认证时异常的父类.
 		} catch (AuthenticationException ae) {
 			return R.error("输入的用户名或密码不正确，请重新输入！");

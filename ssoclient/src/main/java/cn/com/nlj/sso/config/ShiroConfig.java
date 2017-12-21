@@ -3,9 +3,12 @@ package cn.com.nlj.sso.config;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import cn.com.nlj.sso.service.RemoteService;
 import cn.com.nlj.sso.shiro.MyShiroRealm;
 
 /***

@@ -1,7 +1,7 @@
 package cn.com.nlj.sso.dto;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 /***
 * 类说明：
@@ -15,11 +15,19 @@ public class UserDto implements Serializable{
 	 */
 	private static final long serialVersionUID = 322459561711034400L;
 	
-	private String userNo;
-	private String userName;
-	private Timestamp createTime;
-	private Timestamp lastTime;
-	
+	private Integer id;
+    private String userNo;
+    private String userName;
+    private String isLock;
+    private Date createTime;
+    private Date lastTime;
+    
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getUserNo() {
 		return userNo;
 	}
@@ -32,18 +40,22 @@ public class UserDto implements Serializable{
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public Timestamp getCreateTime() {
+	public String getIsLock() {
+		return isLock;
+	}
+	public void setIsLock(String isLock) {
+		this.isLock = isLock;
+	}
+	public Date getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Timestamp getLastTime() {
+	public Date getLastTime() {
 		return lastTime;
 	}
-	public void setLastTime(Timestamp lastTime) {
+	public void setLastTime(Date lastTime) {
 		this.lastTime = lastTime;
 	}
-	
-	
 }

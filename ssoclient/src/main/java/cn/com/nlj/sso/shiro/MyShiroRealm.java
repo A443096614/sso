@@ -18,6 +18,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import cn.com.nlj.sso.dto.UserDto;
+import cn.com.nlj.sso.exception.BusinessException;
+import cn.com.nlj.sso.service.RemoteApi;
+import cn.com.nlj.sso.service.RemoteService;
 
 /***
  * 类说明：权限管理
@@ -25,6 +28,8 @@ import cn.com.nlj.sso.dto.UserDto;
  * @author nlj 2017年12月10日 下午9:12:03
  */
 public class MyShiroRealm extends AuthorizingRealm {
+	
+	private RemoteService remoteService;
 	
 	/***
 	 * 认证信息(授权)
@@ -59,20 +64,20 @@ public class MyShiroRealm extends AuthorizingRealm {
 
 		// 3. 调用数据库的方法, 从数据库中查询 username 对应的用户记录
 		UserDto userDto = null;
-		/*try {
-			userDto = (UserDto) remotService.getRemotService(RemotApi.LOGINSERVICE, "queryUserInfoByUserNo", "nlj");
+		try {
+			userDto = (UserDto) remoteService.getRemotService(RemoteApi.LOGINSERVICE, "queryUserInfoByUserNo", "nlj");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
-		
+			throw new BusinessException("登录失败，请重试！");
+		}
 		// 4. 若用户不存在, 则可以抛出 UnknownAccountException 异常
 		if (userDto == null) {
-			throw new UnknownAccountException("用户不存在!");
+			throw new UnknownAccountException("输入的用户名不存在，请重新输入！");
 		}
 
 		// 5. 根据用户信息的情况, 决定是否需要抛出其他的 AuthenticationException 异常.
 		if ("monster".equals(username)) {
-			throw new LockedAccountException("用户被锁定");
+			throw new LockedAccountException("该用户已锁定，请等会再登录！");
 		}
 
 		// 6. 根据用户的情况, 来构建 AuthenticationInfo 对象并返回. 通常使用的实现类为: SimpleAuthenticationInfo
@@ -95,6 +100,10 @@ public class MyShiroRealm extends AuthorizingRealm {
 		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt,
 				realmName);
 		return info;
+	}
+
+	public void setRemoteService(RemoteService remoteService) {
+		this.remoteService = remoteService;
 	}
 
 	public static void main(String[] args) {

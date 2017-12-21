@@ -4,13 +4,13 @@ package cn.com.nlj.sso.service;
 * @author nlj
 * 2017年12月18日 下午11:26:23
 */
-public enum RemotApi {
+public enum RemoteApi {
 
 	LOGINSERVICE("cn.com.nlj.sso.service.LoginService");
 	
 	private String serviceName;
 	
-	private RemotApi(String serviceName) {
+	private RemoteApi(String serviceName) {
 		this.serviceName = serviceName;
 	}
 
