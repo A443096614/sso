@@ -3,6 +3,9 @@ package cn.com.nlj.sso.shiro;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -15,6 +18,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 
 import cn.com.nlj.sso.dto.UserDto;
@@ -29,6 +33,7 @@ import cn.com.nlj.sso.service.RemoteService;
  */
 public class MyShiroRealm extends AuthorizingRealm {
 	
+	@Resource
 	private RemoteService remoteService;
 	
 	/***
@@ -60,12 +65,12 @@ public class MyShiroRealm extends AuthorizingRealm {
 		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
 
 		// 2. 从 UsernamePasswordToken 中来获取 username
-		String username = upToken.getUsername();
+		String userNo = upToken.getUsername();
 
 		// 3. 调用数据库的方法, 从数据库中查询 username 对应的用户记录
 		UserDto userDto = null;
 		try {
-			userDto = (UserDto) remoteService.getRemotService(RemoteApi.LOGINSERVICE, "queryUserInfoByUserNo", "nlj");
+			userDto = (UserDto) remoteService.getRemotService(RemoteApi.LOGINSERVICE, "queryUserInfoByUserNo", userNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new BusinessException("登录失败，请重试！");
@@ -76,34 +81,27 @@ public class MyShiroRealm extends AuthorizingRealm {
 		}
 
 		// 5. 根据用户信息的情况, 决定是否需要抛出其他的 AuthenticationException 异常.
-		if ("monster".equals(username)) {
+		if ("1".equals(userDto.getIsLock())) {
 			throw new LockedAccountException("该用户已锁定，请等会再登录！");
 		}
 
 		// 6. 根据用户的情况, 来构建 AuthenticationInfo 对象并返回. 通常使用的实现类为: SimpleAuthenticationInfo
 		// 以下信息是从数据库中获取的.
 		// 1). principal: 认证的实体信息. 可以是 username, 也可以是数据表对应的用户的实体类对象.
-		Object principal = username;
+		Object principal = userNo;
 		// 2). credentials: 密码.
-		Object credentials = null; // "fc1709d0a95a6be30bc5926fdb7f22f4";
-		if ("admin".equals(username)) {
-			credentials = "038bdaf98f2037b31f1e75b5b4c9b26e";
-		} else if ("user".equals(username)) {
-			credentials = "098d2c478e9c11555ce2823231e02ec1";
-		}
-
+		Object credentials = userDto.getPassWord();
 		// 3). realmName: 当前 realm 对象的 name. 调用父类的 getName() 方法即可
 		String realmName = getName();
 		// 4). 盐值.
-		ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+		ByteSource credentialsSalt = ByteSource.Util.bytes(userNo);
 
-		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt,
-				realmName);
+		SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(principal, credentials, credentialsSalt, realmName);
+		Subject subject = SecurityUtils.getSubject();
+		//5).将userDto里的密码置空
+		userDto.setPassWord("");
+		subject.getSession().setAttribute("user", userDto);
 		return info;
-	}
-
-	public void setRemoteService(RemoteService remoteService) {
-		this.remoteService = remoteService;
 	}
 
 	public static void main(String[] args) {

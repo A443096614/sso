@@ -4,6 +4,7 @@ layui.use('form', function() {
 			$ = layui.jquery;
 	//登录按钮事件
     form.on("submit(login)", function (data) {
+    	var loginLoad = layer.load();
         var datas = "userNo=" + data.field.userNo + "&passWord=" + data.field.passWord + "&captcha=" + data.field.captcha;
         $.ajax({
             type: "POST",
@@ -11,8 +12,11 @@ layui.use('form', function() {
             data: datas,
             dataType: "json",
             success: function (result) {
-                if (result.code == 0) {//登录成功
-                    //parent.location.href = '/index.html';
+            	//关闭
+                layer.close(loginLoad)
+            	console.info(result);
+                if (result.code == '200') {//登录成功
+                    parent.location.href = '/index';
                 } else {
                     layer.msg(result.msg, {icon: 5});
                     refreshCode();

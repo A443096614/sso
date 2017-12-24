@@ -24,6 +24,9 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	public UserDto queryUserInfoByUserNo(String userNo) {
 		SsoUser ssoUser = ssoUserMapper.selectByUserNo(userNo);
+		if (ssoUser == null) {
+			return null;
+		}
 		UserDto udto = new UserDto();
 		dozerBeanMapper.map(ssoUser, udto);
 		return udto;

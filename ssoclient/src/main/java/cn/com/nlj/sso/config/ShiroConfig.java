@@ -1,14 +1,14 @@
 package cn.com.nlj.sso.config;
 
-import org.apache.shiro.realm.Realm;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import cn.com.nlj.sso.service.RemoteService;
 import cn.com.nlj.sso.shiro.MyShiroRealm;
 
 /***
@@ -19,11 +19,43 @@ import cn.com.nlj.sso.shiro.MyShiroRealm;
 @Configuration
 public class ShiroConfig {
 	
-	@Bean
-	public Realm realm() {
+	@Bean(name="ehCacheManager")
+    public EhCacheManager getEhCacheManager() {  
+        EhCacheManager em = new EhCacheManager();  
+        em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");  
+        return em;  
+    }
+	
+	@Bean(name = "myShiroRealm")
+	public MyShiroRealm myShiroRealm(@Qualifier("ehCacheManager")EhCacheManager cacheManager) {
 		MyShiroRealm realm = new MyShiroRealm();
+		realm.setCacheManager(cacheManager);
+		realm.setCredentialsMatcher(hashedCredentialsMatcher());
 		return realm;
 	}
+	
+	@Bean(name = "securityManager")
+	public DefaultWebSecurityManager securityManager(@Qualifier("myShiroRealm") MyShiroRealm myShiroRealm) {
+		DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();
+		dwsm.setRealm(myShiroRealm);
+		// <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->
+		dwsm.setCacheManager(getEhCacheManager());
+		return dwsm;
+	}
+	
+	/**
+     * 凭证匹配器
+     * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了
+     * 所以我们需要修改下doGetAuthenticationInfo中的代码;
+     * ）
+     */
+    @Bean
+    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+       HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+       hashedCredentialsMatcher.setHashAlgorithmName("SHA1");//散列算法:这里使用SHA1算法;
+       hashedCredentialsMatcher.setHashIterations(1024);//散列的次数，比如散列两次，相当于 SHA1(SHA1(""));
+       return hashedCredentialsMatcher;
+    }
 
 	@Bean
 	public ShiroFilterChainDefinition shiroFilterChainDefinition() {

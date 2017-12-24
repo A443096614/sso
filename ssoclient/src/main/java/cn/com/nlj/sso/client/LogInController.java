@@ -17,6 +17,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,8 +66,8 @@ public class LogInController {
 		out.close();
 	}
 
-	@RequestMapping("/sys/login")
 	@ResponseBody
+	@PostMapping("/sys/login")
 	public R login(HttpServletRequest request, String userNo, String passWord, String captcha) {
 		String vrifyCode = (String) request.getSession().getAttribute("vrifyCode");
 		if (!vrifyCode.equals(captcha)) {
@@ -76,8 +78,6 @@ public class LogInController {
 		try {
 			// 执行登录.
 			subject.login(token);
-		} catch (BusinessException e) {
-			return R.error(e.getMessage());
 		// 若没有指定的账户, 则 shiro 将会抛出 UnknownAccountException 异常.
 		} catch (UnknownAccountException uae) {
 			return R.error(uae.getMessage());
@@ -89,8 +89,19 @@ public class LogInController {
 			return R.error(lae.getMessage());
 		// 所有认证时异常的父类.
 		} catch (AuthenticationException ae) {
+			Throwable cause = ae.getCause();
+			if (cause instanceof BusinessException) {
+				return R.error(cause.getMessage());
+			}
 			return R.error("输入的用户名或密码不正确，请重新输入！");
 		}
 		return R.ok();
+	}
+	
+	@GetMapping("/sys/logout")
+	public String logout() {
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
+		return "redirect:/login.html";
 	}
 }

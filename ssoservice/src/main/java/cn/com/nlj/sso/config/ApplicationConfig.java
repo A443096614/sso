@@ -6,9 +6,11 @@ package cn.com.nlj.sso.config;
 
 import org.dozer.spring.DozerBeanMapperFactoryBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import cn.com.nlj.sso.service.SpringServiceAware;
 
+@Configuration
 public class ApplicationConfig {
 
 	@Bean

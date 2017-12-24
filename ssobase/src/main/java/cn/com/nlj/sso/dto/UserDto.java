@@ -19,6 +19,7 @@ public class UserDto implements Serializable{
     private String userNo;
     private String userName;
     private String isLock;
+    private String passWord;
     private Date createTime;
     private Date lastTime;
     
@@ -45,6 +46,12 @@ public class UserDto implements Serializable{
 	}
 	public void setIsLock(String isLock) {
 		this.isLock = isLock;
+	}
+	public String getPassWord() {
+		return passWord;
+	}
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
 	public Date getCreateTime() {
 		return createTime;
