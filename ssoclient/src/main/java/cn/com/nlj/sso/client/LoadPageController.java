@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cn.com.nlj.sso.dto.UserDto;
+import cn.com.nlj.sso.shiro.utils.WebUtil;
 
 /***
  * 类说明：
@@ -22,11 +23,19 @@ public class LoadPageController extends BaseController{
 		return "/" + folder + "/" + pageName;
 	}
 	
-	@RequestMapping("/index")
-	public String index(Model model) {
-		Subject subject = SecurityUtils.getSubject();
-		UserDto userDto = (UserDto) subject.getSession().getAttribute("user");
+	@RequestMapping("/main")
+	public String main(Model model) {
+		UserDto userDto = WebUtil.userDto();
 		model.addAttribute("userName", userDto.getUserName());
-		return "index";
+		return "main";
+	}
+	
+	@RequestMapping("/login")
+	public String login(Model model) {
+		Subject subject = SecurityUtils.getSubject();
+		if (subject.getSession().getAttribute("user") != null) {
+			return "main";
+		}
+		return "login";
 	}
 }

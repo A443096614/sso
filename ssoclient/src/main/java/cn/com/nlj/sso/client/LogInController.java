@@ -98,10 +98,33 @@ public class LogInController {
 		return R.ok();
 	}
 	
+	//登出
 	@GetMapping("/sys/logout")
 	public String logout() {
 		Subject subject = SecurityUtils.getSubject();
 		subject.logout();
-		return "redirect:/login.html";
+		return "redirect:/login";
+	}
+	
+	//修改密码
+	@ResponseBody
+	@PostMapping("/sys/updatePwd")
+	public R updatePwd(HttpServletRequest request, String oldPwd, String newPwd, String checkPwd) {
+		return R.ok();
+	}
+	
+	//左边菜单栏
+	@ResponseBody
+	@PostMapping("/sys/leftMemu")
+	public R leftMemu(HttpServletRequest request) {
+		
+		return R.ok();
+	}
+	
+	//头部菜单栏
+	@ResponseBody
+	@PostMapping("/sys/topMemu")
+	public R topMemu(HttpServletRequest request) {
+		return R.ok();
 	}
 }

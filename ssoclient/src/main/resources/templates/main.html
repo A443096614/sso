@@ -5,28 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>sso管理系统</title>
 <link rel="stylesheet" th:href="@{layui-v2.2.45/css/layui.css}" media="all">
+<link rel="stylesheet" th:href="@{style/css/common.css}" media="all">
 </head>
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		<div class="layui-header layui-bg-cyan"><!-- layui-bg-cyan 藏青色 导航栏 -->
-			<div class="layui-logo">layui 后台布局</div>
+			<div class="layui-logo"><b>layui sso管理系统</b></div>
 			<!-- 头部区域（可配合layui已有的水平导航） -->
 			<ul class="layui-nav layui-layout-left">
 				<li class="layui-nav-item"><a href="">控制台</a></li>
-				<li class="layui-nav-item"><a href="">商品管理</a></li>
-				<li class="layui-nav-item"><a href="">用户</a></li>
-				<li class="layui-nav-item"><a href="javascript:;">其它系统</a>
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="">邮件管理</a>
-						</dd>
-						<dd>
-							<a href="">消息管理</a>
-						</dd>
-						<dd>
-							<a href="">授权管理</a>
-						</dd>
-					</dl></li>
 			</ul>
 			<ul class="layui-nav layui-layout-right" lay-filter="navRight">
 				<li class="layui-nav-item">
@@ -38,21 +25,22 @@
 							<a href="">基本资料</a>
 						</dd>
 						<dd>
-							<a href="">安全设置</a>
+							<a id="updatePwd" href="javascript:;">修改密码</a>
 						</dd>
 					</dl>
 				</li>
 				<li class="layui-nav-item">
-					<a href="javascript:;">退出</a>
+					<a href="javascript:exit();">退出</a>
 				</li>
 			</ul>
 		</div>
-
+		
+		<!-- 左边菜单栏 -->
 		<div class="layui-side layui-bg-black">
 			<div class="layui-side-scroll">
 				<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-				<ul class="layui-nav layui-nav-tree" lay-filter="test">
-					<li class="layui-nav-item layui-nav-itemed"><a class="" href="javascript:;">所有商品</a>
+				<ul class="layui-nav layui-nav-tree" lay-filter="leftMemu">
+					<!-- <li class="layui-nav-item layui-nav-itemed"><a class="" href="javascript:;">所有商品</a>
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;">列表一</a>
@@ -80,22 +68,50 @@
 							</dd>
 						</dl></li>
 					<li class="layui-nav-item"><a href="">云市场</a></li>
-					<li class="layui-nav-item"><a href="">发布商品</a></li>
+					<li class="layui-nav-item"><a href="">发布商品</a></li>-->
 				</ul>
 			</div>
 		</div>
 
-		<div class="layui-body">
-			<!-- 内容主体区域 -->
-			<div style="padding: 15px;">内容主体区域</div>
-		</div>
+		 <!-- 右边内容区域 -->
+		  <div class="layui-body layui-form">
+		  	<div class="layui-tab layui-tab-card myTab" lay-filter="myTab" lay-allowclose="true">
+				<ul class="layui-tab-title" id="myTabMenu">
+					<li class="layui-this" lay-id="1">
+						<i class="layui-icon">&#xe68e;</i>
+						<cite>首页</cite>
+						<p class="layui-tab-close" style="display: none;"></p>
+					</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show" lay-id="1">
+						<iframe src=""></iframe>
+					</div>
+				</div>
+			</div>
+		  </div>
 
+		<!-- 底部固定区域 -->
 		<div class="layui-footer">
-			<!-- 底部固定区域 -->
 			© layui.com - 底部固定区域
 		</div>
 	</div>
+	
+	<!-- 修改密码 -->
+	<div id="passwordLayer" style="display: none;">
+		<form class="layui-form">
+			<div class="layui-form-item">
+				<input class="layui-input" name="odlPwd" placeholder="原密码" lay-verify="required" autocomplete="off" type="password">
+			</div>
+			<div class="layui-form-item">
+				<input class="layui-input" name="newPWd" placeholder="新密码" lay-verify="required" autocomplete="off" type="password">
+			</div>
+			<div class="layui-form-item">
+				<input class="layui-input" name="checkPwd" placeholder="确认密码" lay-verify="required" autocomplete="off" type="password">
+			</div>
+		</form>
+	</div>
 	<script type="text/javascript" th:src="@{layui-v2.2.45/layui.js}"></script>
-	<script type="text/javascript" th:src="@{js/index.js}"></script>
+	<script type="text/javascript" th:src="@{js/main.js}"></script>
 </body>
 </html>
