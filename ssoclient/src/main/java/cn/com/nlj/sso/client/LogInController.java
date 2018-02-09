@@ -2,7 +2,9 @@ package cn.com.nlj.sso.client;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 
 import cn.com.nlj.sso.dto.R;
+import cn.com.nlj.sso.dto.RoleDto;
+import cn.com.nlj.sso.dto.UserDto;
 import cn.com.nlj.sso.exception.BusinessException;
+import cn.com.nlj.sso.service.RemoteApi;
+import cn.com.nlj.sso.service.RemoteService;
+import cn.com.nlj.sso.shiro.utils.WebUtil;
 
 /***
  * 类说明：
@@ -37,6 +44,9 @@ public class LogInController {
 
 	@Autowired
 	private DefaultKaptcha defaultKaptcha;
+	
+	@Resource
+	private RemoteService remoteService;
 	
 	@RequestMapping("/defaultKaptcha")
 	public void defaultKaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -115,16 +125,24 @@ public class LogInController {
 	
 	//左边菜单栏
 	@ResponseBody
-	@PostMapping("/sys/leftMemu")
-	public R leftMemu(HttpServletRequest request) {
-		
+	@PostMapping("/sys/leftMenu")
+	public R leftMenu(HttpServletRequest request) {
+		try {
+			UserDto userDto = WebUtil.userDto();
+			userDto = (UserDto) remoteService.getRemotService(RemoteApi.LOGINSERVICE, "queryLeftMenu", userDto.getRoleList());
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new BusinessException("登录失败，请重试！");
+		}
 		return R.ok();
 	}
 	
 	//头部菜单栏
 	@ResponseBody
-	@PostMapping("/sys/topMemu")
-	public R topMemu(HttpServletRequest request) {
-		return R.ok();
+	@PostMapping("/sys/topMenu")
+	public R topMenu(HttpServletRequest request) {
+		UserDto userDto = WebUtil.userDto();
+		List<RoleDto> roleList = userDto.getRoleList();
+		return R.ok().put("roleList", roleList);
 	}
 }

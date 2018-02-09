@@ -30,6 +30,11 @@ public class LoadPageController extends BaseController{
 		return "main";
 	}
 	
+	@RequestMapping("/index")
+	public String index() {
+		return "index";
+	}
+	
 	@RequestMapping("/login")
 	public String login(Model model) {
 		Subject subject = SecurityUtils.getSubject();

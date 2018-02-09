@@ -10,6 +10,10 @@
     <result column="is_lock" jdbcType="CHAR" property="isLock" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="last_time" jdbcType="TIMESTAMP" property="lastTime" />
+    
+    <collection property="roleList" column="id" javaType="ArrayList" 
+                ofType="cn.com.nlj.sso.pojo.SsoRole" fetchType="lazy"
+                select="cn.com.nlj.sso.dao.SsoRoleMapper.selectByUserId"/>
   </resultMap>
   
   <sql id="Base_Column_List">

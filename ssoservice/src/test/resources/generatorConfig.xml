@@ -47,10 +47,10 @@
 		</javaClientGenerator>
 
 		<!-- 要生成那些表(更改tableName和domainObjectName就可以) -->
-		<table tableName="sso_user" domainObjectName="SsoUser"
-			enableCountByExample="false" enableUpdateByExample="ture"
-			enableDeleteByExample="false" enableSelectByExample="false"
-			selectByExampleQueryId="false" />
+		<table tableName="sso_menu" domainObjectName="SsoMenu" 
+			enableCountByExample="false" enableDeleteByExample="false" 
+			enableUpdateByPrimaryKey="false" selectByPrimaryKeyQueryId="false"
+		/>
 
 	</context>
 </generatorConfiguration>

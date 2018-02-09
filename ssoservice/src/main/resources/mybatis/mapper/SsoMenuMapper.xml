@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.nlj.sso.dao.SsoMenuMapper">
+  <resultMap id="BaseResultMap" type="cn.com.nlj.sso.pojo.SsoMenu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="type" jdbcType="CHAR" property="type" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="buf" jdbcType="VARCHAR" property="buf" />
+    <result column="soft" jdbcType="INTEGER" property="soft" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, name, url, type, parent_id, buf, soft, icon
+  </sql>
+  
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM sso_menu WHERE id IN(
+	SELECT mu.parent_id FROM sso_menu mu WHERE mu.id IN(SELECT m.parent_id FROM sso_menu m WHERE m.id IN(
+	SELECT p.menu_id FROM sso_permission p WHERE p.role_id='1')))
+  </select>
+  
+  <select id="selectOneMenuByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM sso_menu mu 
+    WHERE mu.id IN(SELECT m.parent_id FROM sso_menu m WHERE m.id IN(
+	SELECT p.menu_id FROM sso_permission p WHERE p.role_id=#{roleId}))
+  </select>
+  
+  <select id="selectTwoMenuByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from sso_menu
+    where menu_id in(select menu_id from sso_permission where role_id=#{roleId})
+  </select>
+  
+  <insert id="insert" parameterType="cn.com.nlj.sso.pojo.SsoMenu">
+    insert into sso_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="buf != null">
+        buf,
+      </if>
+      <if test="soft != null">
+        soft,
+      </if>
+      <if test="icon != null">
+        icon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="buf != null">
+        #{buf,jdbcType=VARCHAR},
+      </if>
+      <if test="soft != null">
+        #{soft,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <sql id="update_base">
+  	update sso_menu
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null">
+        url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=CHAR},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.buf != null">
+        buf = #{record.buf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.soft != null">
+        soft = #{record.soft,jdbcType=INTEGER},
+      </if>
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+    </set>
+  </sql>
+  
+  <update id="updateById" parameterType="map">
+    <include refid="update_base"/> where id=#{id}
+  </update>
+</mapper>

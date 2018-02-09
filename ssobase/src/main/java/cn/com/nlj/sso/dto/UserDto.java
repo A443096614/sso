@@ -2,6 +2,7 @@ package cn.com.nlj.sso.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /***
 * 类说明：
@@ -22,6 +23,7 @@ public class UserDto implements Serializable{
     private String passWord;
     private Date createTime;
     private Date lastTime;
+    private List<RoleDto> roleList;
     
 	public Integer getId() {
 		return id;
@@ -64,5 +66,11 @@ public class UserDto implements Serializable{
 	}
 	public void setLastTime(Date lastTime) {
 		this.lastTime = lastTime;
+	}
+	public List<RoleDto> getRoleList() {
+		return roleList;
+	}
+	public void setRoleList(List<RoleDto> roleList) {
+		this.roleList = roleList;
 	}
 }

@@ -89,10 +89,12 @@ public class StringUtil {
 	 * @param ids
 	 * @return
 	 */
-	public static String fromArrayToStr(String[] ids) {
+	public static String fromArrayToSqlStr(String[] ids) {
 		StringBuilder str = new StringBuilder(100);
 		for (int i = 0; i < ids.length; i++) {
-			str.append("'" + ids[i] + "',");
+			str.append("'");
+			str.append(ids[i]);
+			str.append("',");
 		}
 		if (ids.length > 0) {
 			str.deleteCharAt(str.length() - 1);

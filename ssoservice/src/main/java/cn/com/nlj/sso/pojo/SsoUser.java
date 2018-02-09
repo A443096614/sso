@@ -1,6 +1,7 @@
 package cn.com.nlj.sso.pojo;
 
 import java.util.Date;
+import java.util.List;
 
 public class SsoUser {
     private Integer id;
@@ -16,6 +17,8 @@ public class SsoUser {
     private Date createTime;
 
     private Date lastTime;
+    
+    private List<SsoRole> roleList;
 
     public Integer getId() {
         return id;
@@ -72,4 +75,14 @@ public class SsoUser {
     public void setLastTime(Date lastTime) {
         this.lastTime = lastTime;
     }
+
+	public List<SsoRole> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<SsoRole> roleList) {
+		this.roleList = roleList;
+	}
+    
+    
 }
