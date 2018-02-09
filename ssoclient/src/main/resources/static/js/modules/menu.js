@@ -66,7 +66,6 @@ layui.define([ 'element' ], function(exports) {
 	
 	//左侧菜单显示与隐藏  
 	$('.switchMenu').on('click', function() {
-		console.info("ff")
 	    var sideWidth = $('#leftMemu-side').width();  
 	    if(sideWidth === 200) {  
 	        $('#admin-body').animate({  

@@ -13,15 +13,15 @@
 		<form class="layui-form">
 			<div class="layui-form-item">
 				<input class="layui-input" name="userNo" placeholder="用户名" 
-				lay-verify="required" autocomplete="off" type="text">
+				lay-verify="required" lay-verType="tips" autocomplete="off" type="text">
 			</div>
 			<div class="layui-form-item">
 				<input class="layui-input" name="passWord" placeholder="密码" 
-				lay-verify="required" autocomplete="off" type="password">
+				lay-verify="required"  lay-verType="tips" autocomplete="off" type="password">
 			</div>
 			<div class="layui-form-item form_code">
 				<input class="layui-input" style="width: 140px;" name="captcha" placeholder="验证码" 
-				lay-verify="required" autocomplete="off" type="text">
+				lay-verify="required"  lay-verType="tips" autocomplete="off" type="text">
 				<div class="code">
 					<img id="captcha" src="/defaultKaptcha" onclick="refreshCode(this)" width="116" height="36">
 				</div>

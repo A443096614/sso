@@ -1,0 +1,61 @@
+/* ×óÔò²Ëµ¥À¸ÊÕËõ */
+.switchMenu {
+	position: absolute;
+	left: 200px;
+	width: 20px;
+	height: 20px;
+	margin: 15px 15px 0 0;
+	font-size: 17px;
+	text-align: center;
+	padding: 5px 5px;
+	color: #fff;
+	background-color: #009688;
+}
+
+.search-menu-back{
+    height:40px;
+    width: 200px;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index: 999;
+    background-color: #393D49;
+}
+
+/*²Ëµ¥ËÑË÷*/
+.menu-search{
+    height: 30px;
+    padding-left: 12px;
+    background-color: #424652;
+    border: 1px solid #424652;
+    color: #fff;
+    font-size: 12px;
+    z-index: 10000;
+    width:190px;
+    position: absolute;
+    top:5px;
+    left: 5px;
+    border-radius:12px;
+}
+.menu-search:hover{
+    border: 1px solid #009688!important;
+}
+.menu-search:focus{
+    border: 1px solid #009688!important;
+}
+
+.menu-search-clear{
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: #666;
+    position: absolute;
+    top:8px;
+    right:8px;
+    z-index: 10001;
+}
+
+.menu-search-clear:hover{
+    color: #009688;
+    cursor: pointer;
+}
