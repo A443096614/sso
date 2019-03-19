@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>sso管理系统</title>
-<link rel="stylesheet" th:href="@{layui-v2.2.45/css/layui.css}" media="all">
-<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
-<link rel="stylesheet" th:href="@{style/css/common.css}" media="all">
-<link rel="stylesheet" th:href="@{style/css/main.css}" media="all">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta charset="utf-8" />
+	<title>sso管理系统</title>
+	<link rel="stylesheet" th:href="@{layui-v2.2.45/css/layui.css}" media="all">
+	<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+	<link rel="stylesheet" th:href="@{style/css/common.css}" media="all">
+	<link rel="stylesheet" th:href="@{style/css/main.css}" media="all">
 </head>
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin">
 		
 		<div class="layui-header layui-bg-cyan"><!-- layui-bg-cyan 藏青色 导航栏 -->
-			<a href="http://localhost/main" class="layui-hide-xs">
-				<div class="layui-logo"><b>layui sso管理系统</b></div>
-			</a>
-    		<a href="javascript:;" class="layui-hide-xs">
-    			<div class="switchMenu"><i class="fa fa-outdent"></i></div>
-    		</a>
+			<div class="layui-logo">
+				<b>layui sso管理系统</b>
+			</div>
 			
 			<!-- 头部区域（可配合layui已有的水平导航） -->
-			<ul id="topMenu" class="layui-nav layui-layout-left">
-	            <li class="layui-nav-item layui-this">
-	            	<a href="javascript:createMenu('/statics/json/layuiMenu.json');">layui组件</a>
-	            </li>
-	            <li class="layui-nav-item">
-	            	<a href="javascript:createMenu('/statics/json/vueMenu.json');">vue组件</a>
-	            </li>
+			<ul id="topMenu" class="layui-nav layui-layout-left" lay-filter="navTopLeft">
 	        </ul>
 
 			<ul class="layui-nav layui-layout-right" lay-filter="navTopRight">
@@ -39,19 +31,20 @@
 						<dd id="navTopRight_1">
 							<a href="javascript:;">基本资料</a>
 						</dd>
-						<dd id="navTopRight_pwd">
-							<a id="updatePwd" href="javascript:;"><i class="fa fa-lock"></i>修改密码</a>
+						<dd id="sysUpPwd">
+							<a href="javascript:;"><i class="fa fa-lock"></i>修改密码</a>
 						</dd>
 					</dl>
 				</li>
-				<li class="layui-nav-item" id="navTopRight_out">
+				<li class="layui-nav-item" id="sysOut">
 					<a href="javascript:;"><i class="fa fa-sign-out"></i>退出</a>
 				</li>
 			</ul>
 		</div>
-		
+		<!-- 左菜单栏收缩 -->
+		<div class="leftMemu-collapse"></div>
 		<!-- 左边菜单栏 -->
-	    <div class="layui-side layui-bg-black">
+	    <div class="layui-side layui-bg-black" id="leftMemu-side">
 	        <div class="layui-side-scroll">
 	            <div class="layui-form component">
 	                <div class="search-menu-back">
@@ -60,7 +53,7 @@
 	                </div>
 	            </div>
 	            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-	            <ul class="layui-nav layui-nav-tree"></ul>
+	            <ul class="layui-nav layui-nav-tree" lay-filter="navMenuTree"></ul>
 	        </div>
 	    </div>
 
@@ -68,7 +61,7 @@
 		<div class="layui-body layui-form" id="admin-body">
 			<div class="layui-tab layui-tab-card myTab" lay-filter="myTabs" lay-allowclose="true">
 				<ul class="layui-tab-title" id="myTabMenu">
-					<li class="layui-this" lay-id="1">
+					<li class="layui-this" lay-id="index">
 						<i class="layui-icon">&#xe68e;</i>
 						<cite>首页</cite>
 						<!-- /*隐藏首页tab删除按钮*/ -->
@@ -76,7 +69,7 @@
 					</li>
 				</ul>
 				<div class="layui-tab-content">
-					<div class="layui-tab-item layui-show" lay-id="1">
+					<div class="layui-tab-item layui-show">
 						<iframe src="http://localhost/index"></iframe>
 					</div>
 				</div>
@@ -87,21 +80,6 @@
 		<div class="layui-footer" id="admin-footer">
 			© layui.com - 底部固定区域
 		</div>
-	</div>
-	
-	<!-- 修改密码 -->
-	<div id="passwordLayer" style="display: none;">
-		<form class="layui-form">
-			<div class="layui-form-item">
-				<input class="layui-input" name="odlPwd" placeholder="原密码" lay-verify="required" autocomplete="off" type="password">
-			</div>
-			<div class="layui-form-item">
-				<input class="layui-input" name="newPWd" placeholder="新密码" lay-verify="required" autocomplete="off" type="password">
-			</div>
-			<div class="layui-form-item">
-				<input class="layui-input" name="checkPwd" placeholder="确认密码" lay-verify="required" autocomplete="off" type="password">
-			</div>
-		</form>
 	</div>
 	<script type="text/javascript" th:src="@{layui-v2.2.45/layui.js}"></script>
 	<script type="text/javascript" th:src="@{js/main.js}"></script>

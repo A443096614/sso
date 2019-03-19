@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta charset="utf-8" />
+	<title>修改密码</title>
+	<link rel="stylesheet" href="layui-v2.2.45/css/layui.css" media="all">
+	<style type="text/css">
+		.updatePwd {
+			padding: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="updatePwd">
+		<form class="layui-form" id="updatePwdForm">
+			<div class="layui-form-item">
+				<input class="layui-input" name="oldPwd" placeholder="原密码" 
+				lay-verify="required"  lay-verType="tips" autocomplete="off" type="password">
+			</div>
+			<div class="layui-form-item">
+				<input class="layui-input" name="newPwd" placeholder="新密码" 
+				lay-verify="required|newPwd"  lay-verType="tips" autocomplete="off" type="password">
+			</div>
+			<div class="layui-form-item">
+				<input class="layui-input" name="checkPwd" placeholder="确认密码" 
+				lay-verify="required|checkPwd"  lay-verType="tips" autocomplete="off" type="password">
+			</div>
+			<div style="float:right">
+				<button class="layui-btn login_btn" lay-submit="" lay-filter="updatePwd">更新</button>
+				<button class="layui-btn login_btn" id="updatePwdclose">取消</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript" src="layui-v2.2.45/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['form'], function(){
+	        var form = layui.form, $ = layui.jquery, layer = parent.layer === undefined ? layui.layer : parent.layer;
+	        //监听更新提交
+	        form.on('submit(updatePwd)', function(data){
+	        	var othis = $(this);
+	        	if(othis.hasClass('layui-btn-disabled')) return false;
+	        	othis.addClass('layui-btn-disabled');
+	        	var params = "oldPwd=" + data.field.oldPwd + "&newPwd=" + data.field.newPwd + "&checkPwd=" + data.field.checkPwd;
+	            $.post("sys/updatePwd", params, function(data){
+	    			if(data.code==200){
+	    				layer.msg(data.msg,{icon:1,offset:'t',time: 1000}, function(){
+	    					parent.location.href = '/sys/logout';
+	                	});
+	    			}else{
+	    				layer.msg(data.msg,{icon: 2});
+	    			}
+			    }, "JSON");
+	            return false;
+	        });
+	        
+	        //取消
+	        $('#updatePwdclose').on('click', function(){
+	        	layer.closeAll();
+	      	});
+	        
+	        layui.form.verify({
+	        	checkPwd: function(checkPwd, item){
+					var newPwd = $("#updatePwdForm input[name=newPwd]").val();
+					if(checkPwd!=newPwd){
+						return '新密码与确认密码不一致';
+					}
+				},
+				newPwd: [
+					/^[\S]{6,12}$/,
+					'密码必须6到12位，且不能出现空格'
+				]
+		  	});
+    	});
+	</script>
+</body>
+</html>

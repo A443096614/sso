@@ -1,15 +1,23 @@
-/* ×óÔò²Ëµ¥À¸ÊÕËõ */
-.switchMenu {
-	position: absolute;
-	left: 200px;
-	width: 20px;
-	height: 20px;
-	margin: 15px 15px 0 0;
-	font-size: 17px;
-	text-align: center;
-	padding: 5px 5px;
-	color: #fff;
-	background-color: #009688;
+/* å·¦åˆ™èœå•æ æ”¶ç¼© */
+.leftMemu-collapse {
+    background: url(../images/toggleCollapse.png) no-repeat 0 0;
+    width: 9px;
+    height: 50px;
+    display: inline-block;
+    position: fixed;
+    left: 200px;
+    top: 50%;
+    margin-top: -17px;
+    cursor: pointer;
+    z-index: 99999;
+}
+/* å·¦åˆ™èœå•æ  */
+.layui-nav-tree{
+    top:35px;
+}
+
+.leftMemu-collapse.leftMemu-show {
+    background-position: right 0;
 }
 
 .search-menu-back{
@@ -22,7 +30,7 @@
     background-color: #393D49;
 }
 
-/*²Ëµ¥ËÑË÷*/
+/*èœå•æœç´¢*/
 .menu-search{
     height: 30px;
     padding-left: 12px;

@@ -13,7 +13,7 @@ public class SsoMenu {
 
     private String buf;
 
-    private Integer soft;
+    private Integer sort;
 
     private String icon;
 
@@ -65,12 +65,12 @@ public class SsoMenu {
         this.buf = buf == null ? null : buf.trim();
     }
 
-    public Integer getSoft() {
-        return soft;
+    public Integer getSort() {
+        return sort;
     }
 
-    public void setSoft(Integer soft) {
-        this.soft = soft;
+    public void setSoft(Integer sort) {
+        this.sort = sort;
     }
 
     public String getIcon() {

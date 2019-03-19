@@ -35,6 +35,11 @@ public class LoadPageController extends BaseController{
 		return "index";
 	}
 	
+	@RequestMapping("/updatePwd")
+	public String updatePwd() {
+		return "updatePwd";
+	}
+	
 	@RequestMapping("/login")
 	public String login(Model model) {
 		Subject subject = SecurityUtils.getSubject();

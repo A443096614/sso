@@ -10,9 +10,9 @@ public interface SsoMenuMapper {
 
     int insert(SsoMenu record);
 
-    List<SsoMenu> selectByRoleId(int roleId);
+    List<SsoMenu> selectOneMenuByRoleId(int roleId);
 
-    SsoMenu selectById(Integer id);
+    List<SsoMenu> selectTwoMenuByRoleId(int roleId);
 
     int updateById(@Param("record") SsoMenu record, @Param("id") Integer id);
 }

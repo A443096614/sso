@@ -3,6 +3,7 @@ package cn.com.nlj.sso.client;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
@@ -125,21 +126,22 @@ public class LogInController {
 	
 	//左边菜单栏
 	@ResponseBody
-	@PostMapping("/sys/leftMenu")
+	@GetMapping("/sys/leftMemu")
 	public R leftMenu(HttpServletRequest request) {
 		try {
 			UserDto userDto = WebUtil.userDto();
-			userDto = (UserDto) remoteService.getRemotService(RemoteApi.LOGINSERVICE, "queryLeftMenu", userDto.getRoleList());
+			List<RoleDto> roleList = userDto.getRoleList();
+			Map<String, Object> menuList = (Map<String, Object>) remoteService.getRemotService(RemoteApi.LOGINSERVICE, "queryLeftMenu", roleList);
+			return R.ok().put("menuList", menuList);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new BusinessException("登录失败，请重试！");
+			return R.error("获取菜单失败，请重试！");
 		}
-		return R.ok();
 	}
 	
 	//头部菜单栏
 	@ResponseBody
-	@PostMapping("/sys/topMenu")
+	@GetMapping("/sys/topMenu")
 	public R topMenu(HttpServletRequest request) {
 		UserDto userDto = WebUtil.userDto();
 		List<RoleDto> roleList = userDto.getRoleList();

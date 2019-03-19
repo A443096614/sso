@@ -20,5 +20,5 @@ public interface LoginService {
 	 * @param userNo
 	 * @return
 	 */
-	public List<Map<String, Object>> queryLeftMenu(List<RoleDto> roleList);
+	public Map<String, Object> queryLeftMenu(List<RoleDto> roleList);
 }
